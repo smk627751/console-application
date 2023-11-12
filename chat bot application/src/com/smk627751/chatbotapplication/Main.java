@@ -112,6 +112,13 @@ public class Main {
 					System.out.println("|-----------------------|");
 					System.out.println("|\ttotal:\t\s\s"+total+"\t|");
 					System.out.println("+=======================+");
+					Scanner sc = new Scanner(System.in);
+					System.out.println("Press 0 to pay..");
+					if(sc.next().charAt(0)== '0')
+					{
+						System.out.println("Thank you for visiting....");
+						System.exit(0);
+					}
 				}
 				else
 				{

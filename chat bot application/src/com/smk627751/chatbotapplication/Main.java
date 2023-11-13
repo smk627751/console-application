@@ -39,7 +39,7 @@ public class Main {
 	
 	private static Map<String,String> getMenu(String page)
 	{
-		Map<String,String> m = map.getOrDefault(page,null);
+		Map<String,String> m = map.get(page);
 		System.out.println("+=======================+");
 		if(m != null)
 		for(Map.Entry<String, String> e : m.entrySet())
@@ -141,8 +141,12 @@ public class Main {
 		char choice;
 		Scanner sc = new Scanner(System.in);
 		do {
-			choice = sc.next().charAt(0);
-			map = navigate(choice,map);
+			try {
+				choice = sc.next().charAt(0);
+				map = navigate(choice,map);
+			} catch (NullPointerException e) {
+				System.out.println("Invalid choice");
+			}
 		}while(sc.hasNext());
 	}
 

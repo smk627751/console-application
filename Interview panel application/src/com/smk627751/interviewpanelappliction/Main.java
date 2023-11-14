@@ -25,6 +25,7 @@ public class Main {
 	static Queue<applicant> applicants = new LinkedList();
 	static Scanner sc = new Scanner(System.in);
 	static Timer timer = new Timer();
+	
 	public static void startInterview()
 	{
 		System.out.println("Interview Started");
@@ -44,6 +45,36 @@ public class Main {
 			timer.schedule(task, 5000,5000);
 		}
 	}
+	
+	public static void options(int choice)
+	{
+		switch(choice)
+		{
+			case 1:
+			{
+				System.out.println("Enter the name:");
+				String name = sc.next();
+				System.out.println("Enter the qualication:");
+				String qualification = sc.next();
+				applicants.add(new applicant(name,qualification));
+				break;
+			}
+			
+			case 2 :{
+				System.out.println(applicants);
+				break;
+			}
+			case 3:{
+				startInterview();
+				break;
+			}
+			case 4:{
+				timer.cancel();
+				System.out.println("Interview ended..");
+				break;
+			}
+		}
+	}
 	public static void main(String[] args) {
 		int choice;
 		do {
@@ -54,32 +85,7 @@ public class Main {
 			System.out.println("+===============================+");
 			System.out.println();
 			choice = sc.nextInt();
-			switch(choice)
-			{
-				case 1:
-				{
-					System.out.println("Enter the name:");
-					String name = sc.next();
-					System.out.println("Enter the qualication:");
-					String qualification = sc.next();
-					applicants.add(new applicant(name,qualification));
-					break;
-				}
-				
-				case 2 :{
-					System.out.println(applicants);
-					break;
-				}
-				case 3:{
-					startInterview();
-					break;
-				}
-				case 4:{
-					timer.cancel();
-					System.out.println("Interview ended..");
-					break;
-				}
-			}
+			options(choice);
 		}while(choice != 0);
 	}
 

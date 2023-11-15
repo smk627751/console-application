@@ -7,8 +7,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 class applicant{
-	String name;
-	String qualification;
+	private String name;
+	private String qualification;
 	
 	applicant(String name, String qualification)
 	{
@@ -44,6 +44,10 @@ public class Main {
 		{
 			timer.schedule(task, 5000,5000);
 		}
+		else
+		{
+			timer.cancel();
+		}
 	}
 	
 	public static void options(int choice)
@@ -69,9 +73,8 @@ public class Main {
 				break;
 			}
 			case 4:{
-				timer.cancel();
 				System.out.println("Interview ended..");
-				break;
+				System.exit(0);
 			}
 		}
 	}
@@ -82,6 +85,7 @@ public class Main {
 			System.out.println("|\s"+"1.Add an applicant"+"\t\t|");
 			System.out.println("|\s"+"2.view waiting applicants"+"\t|");
 			System.out.println("|\s"+"3.Start the Interview"+"\t\t|");
+			System.out.println("|\s"+"4.End the Interview"+"\t\t|");
 			System.out.println("+===============================+");
 			System.out.println();
 			choice = sc.nextInt();

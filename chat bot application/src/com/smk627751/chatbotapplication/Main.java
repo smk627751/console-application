@@ -1,153 +1,38 @@
 package com.smk627751.chatbotapplication;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.Stack;
-import java.util.TreeMap;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.smk627751.chatbotapplication.dao.Repository;
+import com.smk627751.chatbotapplication.view.View;
 
 public class Main {
-
-	private static Stack<String> backStack = new Stack<>();
-	private static Map<String,Integer> orders = new TreeMap<>();
-	private static Map<String,Long> price;
-	private static JSONObject json;
-	private static Map<String,Map<String,String>> map;
-	private static String page;
-	
-	static {
-		try {
-			String path = "src/data.json";
-			FileReader fileReader = new FileReader(path);
-			JSONParser obj = new JSONParser();
-			json = (JSONObject) obj.parse(fileReader);
-			map = (Map)json.get("page1");
-			price = (Map)map.get("price");
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private static Map<String,String> getMenu(String page)
+	private static View view;
+	Main()
 	{
-		Map<String,String> m = map.get(page);
-		System.out.println("+=======================+");
-		if(m != null)
-		for(Map.Entry<String, String> e : m.entrySet())
-		{
-			System.out.print("|\s"+e.getKey()+"\s|\t"+e.getValue());
-			if(e.getValue().length() <= 7)
-			{
-				System.out.println("\t\t|");
-			}
-			else
-			{
-				System.out.println("\t|");
-			}
-		}
-		System.out.println("+=======================+");
-		if(backStack.size() > 1)
-		{
-			System.out.println("Press - for back");
-		}
-		
-		return m;
+		Main.view = new View();
 	}
 	
-	private static Map<String,String> navigate(char choice, Map<String,String> map)
+	public void init()
 	{
-		if(map == null) return getMenu(backStack.peek());
+		view.getRepository().setPage("Language");
 		
-		switch(choice)
-		{
-			case '-':
-			{
-				if(backStack.size() > 1)
-				{
-					backStack.pop();
-					page = backStack.peek();
-				}
-				else {
-					System.out.println("go next");
-				}
-				break;
-			}
-			default:{
-				page = map.get(choice+"");
-				if(backStack.peek().equals("Place order") || backStack.peek().equals("ஆர்டர் வைக்கவும்"))
-				{
-					orders.put(page,orders.getOrDefault(page, 0)+1);
-				}
-				else if(page.equals("View cart") || page.equals("கார்ட்டை பார்க்கவும்"))
-				{
-					for(Map.Entry<String, Integer> order : orders.entrySet())
-					{
-						System.out.println(order.getKey()+" x"+order.getValue());
-					}
-				}
-				else if(page.equals("Payment") || page.equals("கட்டணம்"))
-				{
-					Long total = (long) 0;
-					System.out.println("+=======================+");
-					for(Map.Entry<String, Integer> order : orders.entrySet())
-					{
-						String tab = "\t\s\s";
-						if(order.getKey().length() > 7)
-						{
-							tab = "\s\s";
-						}
-						Long amount = (price.get(order.getKey())*order.getValue());
-						System.out.println("|\t"+order.getKey()+tab+ amount +"\t|");
-						total += amount;
-					}
-					System.out.println("|-----------------------|");
-					System.out.println("|\ttotal:\t\s\s"+total+"\t|");
-					System.out.println("+=======================+");
-					Scanner sc = new Scanner(System.in);
-					System.out.println("Press 0 to pay..");
-					if(sc.next().charAt(0)== '0')
-					{
-						System.out.println("Thank you for visiting....");
-						System.exit(0);
-					}
-				}
-				else
-				{
-					backStack.push(page);
-				}
-				break;
-			}
-		}
-		if(!backStack.isEmpty())
-		{
-			map = getMenu(backStack.peek());
-		}
-		return map;
-	}
-	
-	public static void main(String[] args){
-		page = "Language";
-		Map<String,String> map = getMenu(page);
-		backStack.push(page);
+		Map<String,String> map = view.getMenu(view.getRepository().getPage());
+		view.getBackStack().push(view.getRepository().getPage());
 		char choice;
 		Scanner sc = new Scanner(System.in);
 		do {
 			try {
 				choice = sc.next().charAt(0);
-				map = navigate(choice,map);
+				map = view.navigate(choice,map);
 			} catch (NullPointerException e) {
 				System.out.println("Invalid choice");
 			}
 		}while(sc.hasNext());
+	}
+	public static void main(String[] args){
+		Main obj = new Main();
+		obj.init();
 	}
 
 }

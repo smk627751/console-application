@@ -7,16 +7,22 @@ import java.util.Stack;
 import com.smk627751.chatbotapplication.dao.Repository;
 
 public class View {
-	private static Stack<String> backStack = new Stack<>();
+	private Stack<String> backStack = new Stack<>();
+	public Stack<String> getBackStack() {
+		return backStack;
+	}
+	public void setBackStack(Stack<String> backStack) {
+		this.backStack = backStack;
+	}
 	private static Repository repository;
 	
 	public View()
 	{
-		setRepository(new Repository());
+		View.repository = Repository.getInstance();
 	}
 	public Map<String,String> getMenu(String page)
 	{
-		Map<String,String> m = getRepository().getData().get(page);
+		Map<String,String> m = repository.getData().get(page);
 		System.out.println("+=======================+");
 		if(m != null)
 		for(Map.Entry<String, String> e : m.entrySet())
@@ -32,7 +38,7 @@ public class View {
 			}
 		}
 		System.out.println("+=======================+");
-		if(getBackStack().size() > 1)
+		if(backStack.size() > 1)
 		{
 			System.out.println("Press - for back");
 		}
@@ -42,16 +48,16 @@ public class View {
 	
 	public Map<String,String> navigate(char choice, Map<String,String> map)
 	{
-		if(map == null) return getMenu(getBackStack().peek());
+		if(map == null) return getMenu(backStack.peek());
 		
 		switch(choice)
 		{
 			case '-':
 			{
-				if(getBackStack().size() > 1)
+				if(backStack.size() > 1)
 				{
-					getBackStack().pop();
-					getRepository().setPage(getBackStack().peek());;
+					backStack.pop();
+					getRepository().setPage(backStack.peek());;
 				}
 				else {
 					System.out.println("go next");
@@ -60,7 +66,7 @@ public class View {
 			}
 			default:{
 				getRepository().setPage(map.get(choice+""));
-				if(getBackStack().peek().equals("Place order") || getBackStack().peek().equals("ஆர்டர் வைக்கவும்"))
+				if(backStack.peek().equals("Place order") || backStack.peek().equals("ஆர்டர் வைக்கவும்"))
 				{
 					Map<String,Integer> orders = getRepository().getOrders();
 					orders.put(getRepository().getPage(),orders.getOrDefault(getRepository().getPage(), 0)+1);
@@ -101,14 +107,14 @@ public class View {
 				}
 				else
 				{
-					getBackStack().push(getRepository().getPage());
+					backStack.push(getRepository().getPage());
 				}
 				break;
 			}
 		}
-		if(!getBackStack().isEmpty())
+		if(!backStack.isEmpty())
 		{
-			map = getMenu(getBackStack().peek());
+			map = getMenu(backStack.peek());
 		}
 		return map;
 	}
@@ -117,11 +123,5 @@ public class View {
 	}
 	public void setRepository(Repository repository) {
 		View.repository = repository;
-	}
-	public Stack<String> getBackStack() {
-		return backStack;
-	}
-	public void setBackStack(Stack<String> backStack) {
-		View.backStack = backStack;
 	}
 }

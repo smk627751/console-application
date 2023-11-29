@@ -2,20 +2,20 @@ package com.smk627751.chatbotapplication.dao;
 
 import java.io.FileReader;
 import java.util.Map;
-import java.util.Stack;
 import java.util.TreeMap;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class Repository {
-	private static Map<String,Integer> orders = new TreeMap<>();
-	private static Map<String,Long> price;
-	private static JSONObject json;
-	private static Map<String,Map<String,String>> map;
-	private static String page;
+	private static Repository repository;
+	private Map<String,Integer> orders = new TreeMap<>();
+	private Map<String,Long> price;
+	private JSONObject json;
+	private Map<String,Map<String,String>> map;
+	private String page;
 	
-	public Repository()
+	private Repository()
 	{
 		readData();
 	}
@@ -43,7 +43,7 @@ public class Repository {
 	}
 
 	public void setPage(String page) {
-		Repository.page = page;
+		this.page = page;
 	}
 
 	public Map<String,Long> getPrice() {
@@ -51,7 +51,7 @@ public class Repository {
 	}
 
 	public void setPrice(Map<String,Long> price) {
-		Repository.price = price;
+		this.price = price;
 	}
 
 	public Map<String,Integer> getOrders() {
@@ -59,6 +59,15 @@ public class Repository {
 	}
 
 	public void setOrders(Map<String,Integer> orders) {
-		Repository.orders = orders;
+		this.orders = orders;
+	}
+	public static Repository getInstance()
+	{
+		if(repository == null)
+		{
+			repository = new Repository();
+		}
+		
+		return repository;
 	}
 }

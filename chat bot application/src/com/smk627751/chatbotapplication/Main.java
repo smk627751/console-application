@@ -3,7 +3,6 @@ package com.smk627751.chatbotapplication;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.smk627751.chatbotapplication.dao.Repository;
 import com.smk627751.chatbotapplication.view.View;
 
 public class Main {

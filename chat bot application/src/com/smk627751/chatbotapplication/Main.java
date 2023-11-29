@@ -6,10 +6,10 @@ import java.util.Scanner;
 import com.smk627751.chatbotapplication.view.View;
 
 public class Main {
-	private static View view;
+	private View view;
 	Main()
 	{
-		Main.view = new View();
+		this.view = new View();
 	}
 	
 	public void init()

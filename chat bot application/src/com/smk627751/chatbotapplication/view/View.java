@@ -14,11 +14,11 @@ public class View {
 	public void setBackStack(Stack<String> backStack) {
 		this.backStack = backStack;
 	}
-	private static Repository repository;
+	private Repository repository;
 	
 	public View()
 	{
-		View.repository = Repository.getInstance();
+		this.repository = Repository.getInstance();
 	}
 	public Map<String,String> getMenu(String page)
 	{
@@ -57,7 +57,7 @@ public class View {
 				if(backStack.size() > 1)
 				{
 					backStack.pop();
-					getRepository().setPage(backStack.peek());;
+					repository.setPage(backStack.peek());;
 				}
 				else {
 					System.out.println("go next");
@@ -65,32 +65,32 @@ public class View {
 				break;
 			}
 			default:{
-				getRepository().setPage(map.get(choice+""));
+				repository.setPage(map.get(choice+""));
 				if(backStack.peek().equals("Place order") || backStack.peek().equals("ஆர்டர் வைக்கவும்"))
 				{
-					Map<String,Integer> orders = getRepository().getOrders();
-					orders.put(getRepository().getPage(),orders.getOrDefault(getRepository().getPage(), 0)+1);
-					getRepository().setOrders(orders);
+					Map<String,Integer> orders = repository.getOrders();
+					orders.put(repository.getPage(),orders.getOrDefault(repository.getPage(), 0)+1);
+					repository.setOrders(orders);
 				}
-				else if(getRepository().getPage().equals("View cart") || getRepository().getPage().equals("கார்ட்டை பார்க்கவும்"))
+				else if(repository.getPage().equals("View cart") || repository.getPage().equals("கார்ட்டை பார்க்கவும்"))
 				{
-					for(Map.Entry<String, Integer> order : getRepository().getOrders().entrySet())
+					for(Map.Entry<String, Integer> order : repository.getOrders().entrySet())
 					{
 						System.out.println(order.getKey()+" x"+order.getValue());
 					}
 				}
-				else if(getRepository().getPage().equals("Payment") || getRepository().getPage().equals("கட்டணம்"))
+				else if(repository.getPage().equals("Payment") || repository.getPage().equals("கட்டணம்"))
 				{
 					Long total = (long) 0;
 					System.out.println("+=======================+");
-					for(Map.Entry<String, Integer> order : getRepository().getOrders().entrySet())
+					for(Map.Entry<String, Integer> order : repository.getOrders().entrySet())
 					{
 						String tab = "\t\s\s";
 						if(order.getKey().length() > 7)
 						{
 							tab = "\s\s";
 						}
-						Long amount = (getRepository().getPrice().get(order.getKey())*order.getValue());
+						Long amount = (repository.getPrice().get(order.getKey())*order.getValue());
 						System.out.println("|\t"+order.getKey()+tab+ amount +"\t|");
 						total += amount;
 					}
@@ -107,7 +107,7 @@ public class View {
 				}
 				else
 				{
-					backStack.push(getRepository().getPage());
+					backStack.push(repository.getPage());
 				}
 				break;
 			}
@@ -120,8 +120,5 @@ public class View {
 	}
 	public Repository getRepository() {
 		return repository;
-	}
-	public void setRepository(Repository repository) {
-		View.repository = repository;
 	}
 }

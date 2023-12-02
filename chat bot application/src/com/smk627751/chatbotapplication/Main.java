@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.smk627751.chatbotapplication.view.View;
+import com.smk627751.chatbotapplication.viewmodel.ViewModel;
 
 public class Main {
 	private View view;

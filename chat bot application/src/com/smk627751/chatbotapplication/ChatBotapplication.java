@@ -6,9 +6,9 @@ import java.util.Scanner;
 import com.smk627751.chatbotapplication.view.View;
 import com.smk627751.chatbotapplication.viewmodel.ViewModel;
 
-public class Main {
+public class ChatBotapplication {
 	private View view;
-	Main()
+	ChatBotapplication()
 	{
 		this.view = new View();
 	}
@@ -31,7 +31,7 @@ public class Main {
 		}while(sc.hasNext());
 	}
 	public static void main(String[] args){
-		Main obj = new Main();
+		ChatBotapplication obj = new ChatBotapplication();
 		obj.init();
 	}
 

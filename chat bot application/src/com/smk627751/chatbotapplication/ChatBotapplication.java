@@ -13,5 +13,4 @@ public class ChatBotapplication {
 		ChatBotapplication obj = new ChatBotapplication();
 		obj.view.init();
 	}
-
 }

@@ -7,8 +7,15 @@ import com.smk627751.chatbotapplication.view.View;
 
 public class ViewModel {
 	private View view;
+	private String page;
 	StringBuilder str = new StringBuilder();
 	private Stack<String> backStack = new Stack<>();
+	public String getPage() {
+		return page;
+	}
+	public void setPage(String page) {
+		this.page = page;
+	}
 	public Stack<String> getBackStack() {
 		return backStack;
 	}
@@ -63,7 +70,7 @@ public class ViewModel {
 				if(backStack.size() > 1)
 				{
 					backStack.pop();
-					repository.setPage(backStack.peek());;
+					this.setPage(backStack.peek());;
 				}
 				else {
 					str.append("go next\n");
@@ -71,14 +78,14 @@ public class ViewModel {
 				break;
 			}
 			default:{
-				repository.setPage(map.get(choice+""));
+				this.setPage(map.get(choice+""));
 				if(backStack.peek().equals("Place order") || backStack.peek().equals("ஆர�?டர�? வைக�?கவ�?ம�?"))
 				{
 					Map<String,Integer> orders = repository.getOrders();
-					orders.put(repository.getPage(),orders.getOrDefault(repository.getPage(), 0)+1);
+					orders.put(this.getPage(),orders.getOrDefault(this.getPage(), 0)+1);
 					repository.setOrders(orders);
 				}
-				else if(repository.getPage().equals("View cart") || repository.getPage().equals("கார�?ட�?டை பார�?க�?கவ�?ம�?"))
+				else if(this.getPage().equals("View cart") || this.getPage().equals("கார�?ட�?டை பார�?க�?கவ�?ம�?"))
 				{
 					for(Map.Entry<String, Integer> order : repository.getOrders().entrySet())
 					{
@@ -87,7 +94,7 @@ public class ViewModel {
 					view.onPrint(str.toString());
 					str.setLength(0);
 				}
-				else if(repository.getPage().equals("Payment") || repository.getPage().equals("கட�?டணம�?"))
+				else if(this.getPage().equals("Payment") || this.getPage().equals("கட�?டணம�?"))
 				{
 					Long total = (long) 0;
 					str.append("+=======================+\n");
@@ -117,7 +124,7 @@ public class ViewModel {
 				}
 				else
 				{
-					backStack.push(repository.getPage());
+					backStack.push(this.getPage());
 				}
 				break;
 			}

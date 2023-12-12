@@ -13,7 +13,6 @@ public class Repository {
 	private Map<String,Long> price;
 	private JSONObject json;
 	private Map<String,Map<String,String>> map;
-	private String page;
 	
 	private Repository()
 	{
@@ -37,13 +36,6 @@ public class Repository {
 	public Map<String,Map<String,String>> getData()
 	{
 		return map;
-	}
-	public String getPage() {
-		return page;
-	}
-
-	public void setPage(String page) {
-		this.page = page;
 	}
 
 	public Map<String,Long> getPrice() {

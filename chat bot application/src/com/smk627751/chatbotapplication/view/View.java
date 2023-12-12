@@ -1,6 +1,7 @@
 package com.smk627751.chatbotapplication.view;
 
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Stack;
 
 import com.smk627751.chatbotapplication.dao.Repository;
@@ -18,19 +19,21 @@ public class View {
 	{
 		System.out.println(s);
 	}
-	public Repository getRepository() {
-		return repository;
-	}
-	public Map<String,String> getMenu(String page)
+	public void init()
 	{
-		return viewModel.getMenu(page);
-	}
-	public Stack<String> getBackStack()
-	{
-		return viewModel.getBackStack();
-	}
-	public Map<String,String> navigate(char choice, Map<String,String> map)
-	{
-		return viewModel.navigate(choice, map);
+		repository.setPage("Language");
+		
+		Map<String,String> map = viewModel.getMenu(repository.getPage());
+		viewModel.getBackStack().push(repository.getPage());
+		char choice;
+		Scanner sc = new Scanner(System.in);
+		do {
+			try {
+				choice = sc.next().charAt(0);
+				map = viewModel.navigate(choice,map);
+			} catch (NullPointerException e) {
+				System.out.println("Invalid choice");
+			}
+		}while(sc.hasNext());
 	}
 }

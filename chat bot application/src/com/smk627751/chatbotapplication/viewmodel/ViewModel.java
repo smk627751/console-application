@@ -1,9 +1,7 @@
 package com.smk627751.chatbotapplication.viewmodel;
-
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
-
 import com.smk627751.chatbotapplication.dao.Repository;
 import com.smk627751.chatbotapplication.view.View;
 
